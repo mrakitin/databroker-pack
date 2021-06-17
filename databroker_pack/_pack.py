@@ -5,6 +5,7 @@ import os
 import pathlib
 import secrets
 import shutil
+import uuid
 
 import event_model
 import databroker.core
@@ -324,6 +325,13 @@ def export_run(
                         if name in EXTERNAL_RELATED_DOCS:
                             progress.update()
                             continue
+                    elif name == "start":
+                        doc = doc.copy()
+                        for field in ["uid", "scan_id", "sample", "user", "Measurement"]:
+                            if field in doc:
+                                del doc[field]
+                        doc["uid"] = str(uuid.uuid4())
+                        doc["scan_id"] = 1
                     elif name == "resource":
                         root = root_map.get(doc["root"], doc["root"])
                         unique_id = root_hash_func(doc["root"])
