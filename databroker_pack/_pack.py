@@ -9,6 +9,8 @@ import uuid
 
 import event_model
 import databroker.core
+
+from pprint import pprint
 from tqdm import tqdm
 import yaml
 
@@ -332,6 +334,8 @@ def export_run(
                                 del doc[field]
                         doc["uid"] = str(uuid.uuid4())
                         doc["scan_id"] = 1
+                        print(f"Sanitized '{name}' doc:")
+                        pprint(doc)
                     elif name == "resource":
                         root = root_map.get(doc["root"], doc["root"])
                         unique_id = root_hash_func(doc["root"])
